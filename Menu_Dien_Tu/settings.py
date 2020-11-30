@@ -85,12 +85,12 @@ WSGI_APPLICATION = 'Menu_Dien_Tu.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -101,6 +101,20 @@ DATABASES = {
 #         'OPTIONS': { 'DRIVER':'SQL Server Native Client 11.0', 'Extra_Params':'Trusted_Connection=True'},
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'sql_server.pyodbc',
+        'HOST': 'DESKTOP-AJ7H4HH\MSSQLSERVER2019',
+        'PORT': '',
+        'NAME': 'restaurant_db',
+        # 'USER': 'my_user',
+        # 'PASSWORD': 'my_password',
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+        },
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

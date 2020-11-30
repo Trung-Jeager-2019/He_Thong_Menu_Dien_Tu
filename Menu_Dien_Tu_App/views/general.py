@@ -6,10 +6,51 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from Menu_Dien_Tu_App.models import Restaurant, MenuItem
+from Menu_Dien_Tu_App.models import Restaurant, MenuItem, Profile, Table
 
 # Create your views here
 
+def index(request):
+    data = {
+        'title': 'Just for Food',
+        'companyName': 'Just for Food'
+    }
+    items = Table.objects.all()
+    if items and items.count() > 0:
+        data['tableItems'] = items
+    return render(request, 'user/select.html', processData(request, data))
+
+def select(request):
+    data = {
+        'title': 'Login to your account',
+        'companyName': 'Just for Food'
+    }
+
+    table_code = request.GET.get('table_code', None)
+    
+    if table_code:
+        
+        try:
+            username = table_code
+            password = "Trung14121999#"
+
+            user = auth.authenticate(username=username, password=password)
+
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    print('User logged in')
+                    nextUrl = request.POST.get('next')
+                    print(nextUrl)
+                    if not nextUrl:
+                        nextUrl = 'home'
+                return redirect(nextUrl)
+        except Exception as e:
+            print(e)
+            messages.error(request, "Lỗi! Hãy thử lại!")
+        return redirect('dashboard')
+    else:
+        messages.error(request, "Vui lòng chọn bàn!")
 
 def home(request):
     data = {
@@ -19,9 +60,7 @@ def home(request):
     items = MenuItem.objects.filter(active=True)
     if items and items.count() > 0:
         data['menuItems'] = items
-
     return render(request, 'index.html', processData(request, data))
-
 
 def logoutUser(request):
     auth.logout(request)
