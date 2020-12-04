@@ -28,12 +28,12 @@ def calculatePrice(items, output='total'):
             item['quantity'] = 1
         total_price = total_price + item['price'] * item['quantity']
 
-    total_delivery = total_price*0.08
+    total_delivery = total_price
 
-    grad_total = total_price + total_delivery
+    grad_total = total_price
 
     priceDetails['payable'] = round(grad_total, 2)
-    priceDetails['total_delivery'] = round(total_delivery, 2)
+    # priceDetails['total_delivery'] = round(total_delivery, 2)
     priceDetails['total'] = round(total_price, 2)
 
     return priceDetails[output]

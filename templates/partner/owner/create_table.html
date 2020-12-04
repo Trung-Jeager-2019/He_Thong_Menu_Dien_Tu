@@ -1,0 +1,32 @@
+{% extends 'user/profile.html' %}
+{% block dashboardContent %}
+    <form class="needs-validation" novalidate="" method="post" action="{% url 'create_table_item' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="row">
+            {% for item in all_table %}
+                <div class="col-md-4">
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group ">
+                                    <label class="align-middle text-center">{{item.table_name}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            {% endfor %}
+        </div>
+        <hr class="mb-4">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="name">Số bàn</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="01" value="" required="">
+            </div>
+        </div>
+        
+        <button class="btn px-4 btn-primary " type="submit">Save</button>
+        <a href="{% url 'view_table' %}" class="btn px-4 btn-link ">Cancel</a>
+    </form>
+{% endblock dashboardContent %}

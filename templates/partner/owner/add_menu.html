@@ -6,18 +6,18 @@
         <input type="hidden" name="id" value="{{menuItem.id}}" >
         <div class="row">
           <div class="col-md-6 mb-3">
-            <label for="name">Dish Name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Hủ tiếu" value="{{menuItem.name}}" required="">
+            <label for="name">Tên thức uống</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Tên thức uống" value="{{menuItem.name}}" required="">
           </div>
           <div class="col-md-6 mb-3">
-            <label for="price">Price</label>
+            <label for="price">Giá tiền</label>
             <input type="number" class="form-control" id="price" name="price" placeholder="eg 15000 &#8363;" value="{{menuItem.price}}" required="">
           </div>
         </div>
         <div class="row">
           <div class="col-md-12 mb-3">
             <div class="custom-file">
-              <label class="" for="inputGroupFile04">Choose Image of food</label>
+              <label class="" for="inputGroupFile04">Chọn hình ảnh</label>
               <br>
               <input type="file" class="" name="image" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
         
@@ -25,6 +25,12 @@
           </div>
          </div>
 
+         <div class="row">
+          <div class="col-md-12 mb-3">
+            <label for="name">Mô tả</label>
+            <textarea class="form-control" id="describe" name="describe" placeholder="Mô tả sản phẩm" value="{{menuItem.name}}" required=""></textarea>
+          </div>
+         </div>
          <hr class="mb-4">
         <button class="btn px-4 btn-primary " type="submit">Save</button>
         <a href="{% url 'view_menu' %}" class="btn px-4 btn-link ">Cancel</a>

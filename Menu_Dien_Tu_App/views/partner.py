@@ -5,10 +5,98 @@ from Menu_Dien_Tu.utils import processData, toId, getRole
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from Menu_Dien_Tu_App.models import Restaurant, MenuItem, Order, OrderedItem
+from Menu_Dien_Tu_App.models import Restaurant, MenuItem, Order, OrderedItem, Table, DescribeItem
 from django_countries import countries
 
 # Create your views here
+
+@login_required
+def viewTable(request):
+    data = {'title': 'View Table for my restaurant'}
+    items = Table.objects.all()
+    if items and items.count() > 0:
+        data['tableItems'] = items
+    return render(request, 'partner/owner/view_table.html', processData(request, data))
+
+@login_required
+def createTable(request):
+    data = {'title': 'Create Items to Table for my restaurant'}
+    data['all_table'] = Table.objects.all()
+    return render(request, 'partner/owner/create_table.html', processData(request, data))
+
+@login_required
+def createTableItem(request):
+    data = {'title': 'Create Items to Table for my restaurant'}
+    if request.method == "POST":
+        table_name = "Bàn " + request.POST.get('name')
+        if Table.objects.filter(table_name = table_name).first():
+            messages.info(request, table_name + " đã tồn tại!")
+        else:
+            # create user 
+            table_code = "Ban_" + table_name.split(" ", 1)[1]
+            username = table_code
+            password = "Trung14121999#"
+            user = User.objects.create_user(username=username, email="", password=password, first_name="", last_name="")
+            user.profile.role = "normal"
+            user.save()
+            # create table
+            Table.objects.create(table_code = table_code, table_name = table_name, status = False)
+            messages.info(request, table_name + " đã được thêm!")
+    
+    return redirect('create_table')
+
+@login_required
+def deleteTable(request):
+    table_code = request.GET.get('table_code')
+    try:
+        print(table_code)
+        tableItem = Table.objects.filter(table_code = table_code).first()
+        if tableItem.status:
+            messages.info(request, tableItem.table_name + ' đang được đặt!')
+            messages.info(request, 'Không thể xóa ' + tableItem.table_name + '!')
+            return redirect('view_table')
+        else:
+            tableItem.delete()
+            messages.error(request, tableItem.table_name + ' đã được xóa!')
+            user = User.objects.filter(username=table_code)
+            user.delete()
+            return redirect('view_table')
+    except Exception as ex:
+        print("error")
+    return redirect('view_table')
+
+@login_required
+def addTable(request):
+    data = {'title': 'Add Items to Table for my restaurant'}
+    # Lấy dữ liệu từ form add table
+    if request.method == "POST":
+        print("Add")
+        table_name = request.POST.get('name')
+        table_code = request.GET.get('table_code')
+        try:
+            table_code_check = Table.objects.filter(table_name = table_name).first()
+            if table_code_check.table_code == table_code:
+                messages.info(request, table_name + " không thay đổi!")
+            else:
+                tableItem = Table.objects.filter(table_code = table_code).first()
+                tableItem.table_code = "Ban_" + table_name.split(" ", 1)[1]
+                tableItem.table_name = table_name
+                tableItem.save()
+
+                # user = User.objects.
+                messages.info(request, )
+        except Exception as ex:
+            messages.info(request, 'updated price for item ')
+            print(ex)
+            return redirect('add_table')
+        return redirect('view_table')
+
+    # Tải dữ liệu từ form view table
+    table_code = request.GET.get('table_code')
+    if table_code:
+        data['tableItems'] = Table.objects.filter(table_code=table_code).first()
+    return render(request, 'partner/owner/add_table.html', processData(request, data))
+
 @login_required
 def restaurantDetails(request):
     data = {'title': 'My Restaurant Details'}
@@ -52,12 +140,31 @@ def restaurantDetails(request):
     data['countries'] = list(countries)
     return render(request, 'partner/owner/restaurant_details.html', processData(request, data))
 
+@login_required
+def viewDescribe(request):
+    data = {'title': 'View describe for my restaurant'}
+    name = request.GET.get('name')
+    id_s = request.GET.get('id') 
+    # print("ooooooo--------------------" + str(id_s))
+    menu = MenuItem.objects.filter(name=name)
+    mota = DescribeItem.objects.filter(menuItem=menu[0])
+    # print("sss ---------------" + str(mota[0].menuItem.id))
+    # print(mota[0].describe)
+    if mota:
+        data['info_item'] = mota[0]
+        data['link_image'] = "media/" + str(mota[0].menuItem.image)
+        print(data['link_image'])
+    else:
+        data['info_item.describe'] = None
+        data['error'] = "Chưa có mô tả cho sản phẩm này! Vui lòng thêm mô tả cho sản phẩm!"
+    return render(request, 'partner/owner/describe.html', processData(request, data))
 
 @login_required
 def viewMenu(request):
     data = {'title': 'View Menu for my restaurant'}
     data['menuItems'] = MenuItem.objects.filter(user=request.user)
     return render(request, 'partner/owner/view_menu.html', processData(request, data))
+
 
 
 @login_required
@@ -112,6 +219,8 @@ def addMenu(request):
         name = request.POST.get('name')
         price = request.POST.get('price')
         image = request.FILES.get('image')
+        describe = request.POST.get('describe')
+
         if not (name and price):
             messages.error(request, 'please specify name of dish')
             return redirect('add_menu')
@@ -122,6 +231,7 @@ def addMenu(request):
                 menuItem = MenuItem.objects.filter(
                     user=request.user, id=id).first()
                 menuItem.price = price
+                menuItem.name = name
                 if image:
                     menuItem.image.save(image.name, image)
                 menuItem.save()
@@ -129,6 +239,9 @@ def addMenu(request):
             else:
                 menuItem = MenuItem.objects.create(
                     user=request.user, name=name, price=price, image=image)
+                describeItem = DescribeItem.objects.create(
+                    menuItem=menuItem, describe=describe
+                )
                 messages.info(request, 'crated new Menu item')
 
         except Exception as e:
@@ -151,15 +264,22 @@ def revenue(request):
     if request.method == "POST":
         messages.error(request, "cant save. please try again or conact admin")
         return redirect('revenue')
+    # items = OrderedItem.objects.filter(item__user=request.user)
+    # revenue = 0
+    # for i in items:
+    #     revenue += i.item.price * i.quantity
+
+    # data['revenue'] = revenue
     items = OrderedItem.objects.filter(item__user=request.user)
-    revenue = 0
+    print(items)
     for i in items:
-        revenue += i.item.price * i.quantity
-
-    data['revenue'] = revenue
-
+        # if i.order.user.username == "Ban_01":
+        #     print(i.item.price)
+        print(i.order.user.username)
+        print(i.item.name)
+        print(i.item.price)
+    # data['revenue'] = items.item.price
     return render(request, 'partner/owner/revenue.html', processData(request, data))
-
 
 @login_required
 def ownerHistory(request):
@@ -168,14 +288,47 @@ def ownerHistory(request):
     if request.method == "POST":
         messages.error(request, "cant save. please try again or conact admin")
         return redirect('order_history')
+    data['all_table'] = Table.objects.all()
 
-    o = OrderedItem.objects.filter(item__user=request.user)
-    history = ()
-    for i in o:
-        history.append(i)
-        print(i.item)
+    # o = OrderedItem.objects.filter(item__user=request.user)
+    # history = ()
+    # for i in o:
+    #     history.append(i)
+    #     print(i.item)
 
-    data['history'] = history
+    # data['history'] = history
 
-    print(history)
-    return render(request, 'partner/owner/order_history.html', processData(request, data))
+    # print(history)
+    return render(request, 'partner/owner/view_table_order.html', processData(request, data))
+
+@login_required
+def ownerHistoryTable(request):
+    data = {'title': 'Previous orders '}
+    table_code = request.GET.get('table_code')
+    print(table_code)
+
+    user = User.objects.get(username = table_code)
+    print(user)
+    try:
+        ordersFromDb = Order.objects.filter(user=user).order_by('-id')
+        print(ordersFromDb[0].id)
+    except Exception as ex:
+        print(ex)
+    print(ordersFromDb)
+    newOrders = []
+    for order in ordersFromDb:
+        tmp_order = {}
+        tmp_order['id'] = order.id
+        tmp_order['delivered'] = order.delivered
+        tmp_order['rider'] = order.rider
+        tmp_order['dateTime'] = order.date
+        tmp_order['total'] = order.total_price
+        tmp_order['items'] = OrderedItem.objects.filter(
+            order=order).order_by('-id')
+        newOrders.append(tmp_order)
+
+    print(newOrders)
+
+    data['orders'] = newOrders
+    data['name_table'] = order.user.username
+    return render(request, 'partner/owner/owner_history_details.html', processData(request, data))

@@ -13,7 +13,6 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username + " " + self.role
 
-
 class MenuItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
@@ -24,6 +23,13 @@ class MenuItem(models.Model):
     def __str__(self):
         return self.user.username + " - " + self.name + " : " + str(self.price) + " : " + str(self.active)
 
+class DescribeItem(models.Model):
+    menuItem = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
+    describe = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return str(self.menuItem)
+    
 
 class Table(models.Model):
     table_code = models.CharField(max_length=20)
@@ -53,7 +59,6 @@ class Restaurant(models.Model):
     def create(cls, name, location):
         restaurant = cls(name=name, location=location)
         # do something with the book
-
         return restaurant
 
 
@@ -65,6 +70,7 @@ class Order(models.Model):
     total_price = models.DecimalField(
         default=0.0, max_digits=10, decimal_places=2)
     deliveredOn = models.DateTimeField(blank=True, null=True, default=None)
+    date = models.DateTimeField(blank=True, null=True, default=None)
 
     def __str__(self):
         return self.user.username + " ordered  and  is deleverted " + str(self.delivered)

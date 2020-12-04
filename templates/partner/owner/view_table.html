@@ -1,0 +1,44 @@
+{% extends 'user/profile.html' %}
+{% load static %}
+{% block style %}
+.img-fluid{
+    max-width: 100px;
+    height: auto;
+    max-height: 100px
+}
+{% endblock style %}
+{% block dashboardContent %}
+<table class="table table-bordered">
+  <thead>
+    <tr class="">
+      <th scope="col">#</th>
+      <th scope="col"class="text-center">Tên bàn</th>
+      <th scope="col"class="text-center">Trạng thái</th>
+      <th scope="col" class="text-center">Hoạt động</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if not tableItems %}
+        <tr>
+            <td  colspan="5" class="text-center">No items found. Plase add table! </td>
+        <tr>
+    {% else %}
+        {% for item in tableItems %}    
+            <tr>
+                <th class="align-middle">{{forloop.counter}}</th>
+                <td class="align-middle">{{item.table_name}}</td>
+                {% if item.status %}
+                  <td class="align-middle text-center">Đã đặt</td>
+                {% else %}
+                  <td class="align-middle text-center">Trống</td>
+                {% endif %}
+                <td class="align-middle text-center">
+                    <a class="btn btn-warning" href="{% url 'add_table' %}?table_code={{item.table_code}}"> Edit </a> 
+                    <a class="btn btn-outline-danger" href="{% url 'delete_table' %}?table_code={{item.table_code}}"> Delete </a>
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+  </tbody>
+</table>
+{% endblock dashboardContent %}

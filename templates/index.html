@@ -18,12 +18,16 @@
                 {% endif %}
             <div class="card-body">
                 <p class="card-text">{{item.name | title}}</p>
+                <div class="p-2 badge badge-dark">{{item.price}} <span> &#8363; </span></div>
                 <p class="text-secondary">{{item.user.restaurant.name | title}}</p>
                 <div class="d-flex justify-content-between align-items-center">
-                <div class="p-2 badge badge-dark">{{item.price}} <span> &#8363; </span></div>
                 <div class="btn-group">
-                    <a href="{% url 'addItemToCart' %}?id={{item.id}}" class="btn btn-sm btn-warning">Add To Cart</a>
+                    <a href="{% url 'addItemToCart' %}?id={{item.id}}" class="btn btn-sm btn-warning">Mua ngay</a>
                 </div>
+                <div class="btn-group">
+                    <a href="{% url 'view_describe' %}?name={{item.name}}&id={{item.id}}" class="btn btn-sm btn-warning">Tìm hiểu thêm</a>
+                </div>
+                
                 
                 </div>
             </div>

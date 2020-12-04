@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from Menu_Dien_Tu_App.models import Restaurant, MenuItem, Order, OrderedItem
+from datetime import datetime
 
 # Create your views here
 
@@ -26,8 +27,15 @@ def checkout(request):
     try:
         with transaction.atomic():
             total_price = getTotalFromOrder(items)
+            dateTime = datetime.now()
+
+            result_date = datetime(
+                dateTime.year, dateTime.month, dateTime.day, dateTime.hour, dateTime.minute, dateTime.second, 00
+                )
+            print(result_date)
+
             orderDetails = Order.objects.create(
-                user=request.user, deliveredOn=None, total_price=total_price)
+                user=request.user, deliveredOn=None, total_price=total_price, date=result_date)
 
             for item in items:
                 menuItem = MenuItem.objects.filter(id=item['id']).first()

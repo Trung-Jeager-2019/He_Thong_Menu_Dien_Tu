@@ -25,47 +25,56 @@ def select(request):
         'title': 'Login to your account',
         'companyName': 'Just for Food'
     }
+    table_code = request.GET.get('table_code')
+    print(table_code)
+    try:
+        username = table_code
+        password = "Trung14121999#"
 
-    table_code = request.GET.get('table_code', None)
-    
-    if table_code:
-        
-        try:
-            username = table_code
-            password = "Trung14121999#"
+        status = Table.objects.get(table_code=table_code)
+        status.status = True
+        status.save()
 
-            user = auth.authenticate(username=username, password=password)
-
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    print('User logged in')
-                    nextUrl = request.POST.get('next')
-                    print(nextUrl)
-                    if not nextUrl:
-                        nextUrl = 'home'
-                return redirect(nextUrl)
-        except Exception as e:
-            print(e)
-            messages.error(request, "Lỗi! Hãy thử lại!")
-        return redirect('dashboard')
-    else:
-        messages.error(request, "Vui lòng chọn bàn!")
+        user = auth.authenticate(username=username, password=password)
+        print("Check user")
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                print('User logged in')
+                nextUrl = request.POST.get('next')
+                print(nextUrl)
+                if not nextUrl:
+                    nextUrl = 'home'
+            return redirect(nextUrl)
+    except Exception as ex:
+        print(ex)
+        messages.error(request, "Xảy ra lỗi! Vui lòng liên hệ cửa hàng!")
+    return redirect('index')
 
 def home(request):
     data = {
         'title': 'Just for Food',
         'companyName': 'Just for Food'
     }
-    items = MenuItem.objects.filter(active=True)
+    # items = MenuItem.objects.filter(active=True)
+    items = MenuItem.objects.all()
     if items and items.count() > 0:
         data['menuItems'] = items
     return render(request, 'index.html', processData(request, data))
 
 def logoutUser(request):
-    auth.logout(request)
-    messages.info(request, 'User loggedout')
-    return redirect('login')
+    check_User = str(request.user)
+    if request.user.is_authenticated:
+        try:
+            status = Table.objects.get(table_code=check_User)
+            status.status = False
+            status.save()
+            auth.logout(request)
+            messages.info(request, 'Bạn đã trả bàn!')
+        except Exception as ex:
+            auth.logout(request)
+            messages.info(request, 'Đã đăng xuất tài khoản!')
+    return redirect('index')
 
 
 def loginUser(request):
@@ -141,7 +150,7 @@ def signup(request):
                 user.profile.role = getRole(request)
                 user.save()
 
-                print('User crated')
+                print('User created')
                 messages.info(
                     request, 'Account created successfully. Please login to continue.')
         return redirect('login')
@@ -195,7 +204,6 @@ def cart(request):
     }
     return render(request, 'cart.html', processData(request, data))
 
-
 @login_required
 def addToCart(request):
     id = request.GET.get('id', None)
@@ -218,7 +226,6 @@ def addToCart(request):
         except Exception as e:
             print(e)
             messages.error(request, "An error occured. Please try again.")
-
     else:
         messages.error(request, "Please select item to add to cart.")
 

@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from Menu_Dien_Tu_App.models import Restaurant, MenuItem, Order, OrderedItem
 
 
+
 @login_required
 def orderHistory(request):
     data = {'title': 'Previous orders '}
@@ -25,7 +26,7 @@ def orderHistory(request):
         tmp_order['id'] = order.id
         tmp_order['delivered'] = order.delivered
         tmp_order['rider'] = order.rider
-        tmp_order['deliveredOn'] = order.deliveredOn
+        # tmp_order['deliveredOn'] = order.deliveredOn
         tmp_order['total'] = order.total_price
         tmp_order['items'] = OrderedItem.objects.filter(
             order=order).order_by('-id')
