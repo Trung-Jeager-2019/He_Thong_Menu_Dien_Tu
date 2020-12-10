@@ -9,7 +9,6 @@ from datetime import datetime
 
 # Create your views here
 
-
 @login_required
 def checkout(request):
     items = request.session.get('items')

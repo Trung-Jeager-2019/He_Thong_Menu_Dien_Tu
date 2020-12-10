@@ -12,10 +12,11 @@
   <thead>
     <tr class="">
       <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Price</th>
-      <th scope="col" class="text-center">Image</th>
-      <th scope="col" class="text-center">Action</th>
+      <th scope="col">Tên</th>
+      <th scope="col">Giá</th>
+      <th scope="col" class="text-center">Hình ảnh</th>
+      <th scope="col" class="text-center">Mô tả</th>
+      <th scope="col" class="text-center">Thao tác</th>
     </tr>
   </thead>
   <tbody>
@@ -30,10 +31,13 @@
                 <td class="align-middle">{{item.name}}</td>
                 <td class="align-middle">{{item.price}} &#8363; </td>
                 {% if item.image %}
-                    <td class="align-middle text-center"><img class="img-fluid img-thumbnail" src="{{item.image.url}}" ></td>
+                    <td class="align-middle text-center"><img class="img-fluid img-thumbnail" src="{{item.image}}" ></td>
                 {% else %}
                     <td class="align-middle text-center"><img class="img-fluid img-thumbnail" src="/media/default.svg" ></td>
                 {% endif %}
+                <td class="align-middle text-center">
+                    <p> {{item.describe}} </p>
+                </td>
                 <td class="align-middle text-center">
                     <a class="btn btn-warning" href="{% url 'add_menu' %}?id={{item.id}}"> Edit </a> 
                     <a class="btn btn-outline-danger" href="{% url 'delete_menu' %}?id={{item.id}}"> Delete </a>

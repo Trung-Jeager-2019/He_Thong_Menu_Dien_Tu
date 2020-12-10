@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% if info_item.describe is None %}
+{% if info_item_describe is None %}
     <h1>{{error}}</h1>
 {% else %}
 <div class="album py-5">
@@ -20,13 +20,13 @@
 
                 <div class="col-12 mb-0">
                     <figure class="view overlay rounded z-depth-1 main-img">
-                        <a href={{link_image}} data-size="710x823">
-                            <img src={{link_image}} class="img-fluid z-depth-1">
+                        <a href={{info_item_image}} data-size="710x823">
+                            <img src={{ info_item_image }} class="img-fluid z-depth-1">
                         </a>
-                        <div class="d-block img-fixed" style="background:url('{{info_item.menuItem.image}}');background-size:cover">&nbsp;</div>
+                        {% comment %} <div class="d-block img-fixed" style="background:url('{{info_item.menuItem.image}}');background-size:cover">&nbsp;</div> {% endcomment %}
                     </figure>
                 </div>
-                <div class="col-12">
+                {% comment %} <div class="col-12">
                     <div class="row">
                     <div class="col-3">
                         <div class="view overlay rounded z-depth-1 gallery-item">
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     </div>
-                </div>
+                </div> {% endcomment %}
                 </div>
 
             </div>
@@ -44,18 +44,13 @@
             </div>
             <div class="col-md-6">
 
-            <h2><strong> {{ info_item.menuItem.name }} </strong> </h2>
+            <h2><strong> {{ info_item_name }} </strong> </h2>
             <hr>
-            <h5><span class="mr-1"><strong>{{ info_item.menuItem.price }} <span> &#8363; </span> </strong></span> </h5>
-            <p class="pt-1">{{ info_item.describe }}</p>
+            <h5><span class="mr-1"><strong>{{ info_item_price }} <span> &#8363; </span> </strong></span> </h5>
+            <p class="pt-1">{{ info_item_describe }}</p>
 
-            <a href="{% url 'addItemToCart' %}?id={{info_item.menuItem.id}}" class="btn btn-warning btn-md mr-1 mb-2" role="button"> <i
+            <a href="{% url 'addItemToCart' %}?id={{ info_item_id }}" class="btn btn-warning btn-md mr-1 mb-2" role="button"> <i
                 class="fas fa-shopping-cart pr-2"></i>Thêm vào giỏ</a>
-            {% comment %} <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
-
-
-            <button type="button" class="btn btn-light btn-md mr-1 mb-2"><i
-                class="fas fa-shopping-cart pr-2"></i>Add to cart</button> {% endcomment %}
             </div>
             
         </div>

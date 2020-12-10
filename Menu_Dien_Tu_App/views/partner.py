@@ -144,19 +144,16 @@ def restaurantDetails(request):
 def viewDescribe(request):
     data = {'title': 'View describe for my restaurant'}
     name = request.GET.get('name')
-    id_s = request.GET.get('id') 
-    # print("ooooooo--------------------" + str(id_s))
-    menu = MenuItem.objects.filter(name=name)
-    mota = DescribeItem.objects.filter(menuItem=menu[0])
-    # print("sss ---------------" + str(mota[0].menuItem.id))
-    # print(mota[0].describe)
-    if mota:
-        data['info_item'] = mota[0]
-        data['link_image'] = "media/" + str(mota[0].menuItem.image)
-        print(data['link_image'])
-    else:
-        data['info_item.describe'] = None
-        data['error'] = "Chưa có mô tả cho sản phẩm này! Vui lòng thêm mô tả cho sản phẩm!"
+    id_s = request.GET.get('id')
+    
+    item = MenuItem.objects.filter(name=name)
+    data = {
+        'info_item_id': item[0].id,
+        'info_item_name': item[0].name,
+        'info_item_price': item[0].price,
+        'info_item_image': item[0].image,
+        'info_item_describe': item[0].describe,
+    }
     return render(request, 'partner/owner/describe.html', processData(request, data))
 
 @login_required
@@ -234,14 +231,12 @@ def addMenu(request):
                 menuItem.name = name
                 if image:
                     menuItem.image.save(image.name, image)
+                menuItem.describe = describe
                 menuItem.save()
                 messages.info(request, 'updated price for item ' + name)
             else:
                 menuItem = MenuItem.objects.create(
-                    user=request.user, name=name, price=price, image=image)
-                describeItem = DescribeItem.objects.create(
-                    menuItem=menuItem, describe=describe
-                )
+                    user=request.user, name=name, price=price, image=image, describe=describe)
                 messages.info(request, 'crated new Menu item')
 
         except Exception as e:
@@ -261,25 +256,41 @@ def addMenu(request):
 @login_required
 def revenue(request):
     data = {'title': 'Total revenue for my Restaurant'}
-    if request.method == "POST":
-        messages.error(request, "cant save. please try again or conact admin")
-        return redirect('revenue')
-    # items = OrderedItem.objects.filter(item__user=request.user)
-    # revenue = 0
-    # for i in items:
-    #     revenue += i.item.price * i.quantity
 
-    # data['revenue'] = revenue
-    items = OrderedItem.objects.filter(item__user=request.user)
-    print(items)
-    for i in items:
-        # if i.order.user.username == "Ban_01":
-        #     print(i.item.price)
-        print(i.order.user.username)
-        print(i.item.name)
-        print(i.item.price)
-    # data['revenue'] = items.item.price
+    ordersFromDb = Order.objects.all()
+    list_date = []
+    for order in ordersFromDb:
+        str_date = str(order.date).split(" ", 1)[0]
+        if str_date not in list_date:
+            list_date.append(str_date)
+    
+    data = {
+        'list_date':list_date
+    }
+
     return render(request, 'partner/owner/revenue.html', processData(request, data))
+
+@login_required
+def revenueDate(request):
+    data = {'title': 'Total revenue for my Restaurant'}
+
+    if request.method == "POST":
+        
+        date = request.POST.get('date')
+        data['date'] = date
+        orders = Order.objects.filter(date__date__lte=str(date))
+        list_table = []
+        total_venenue = 0
+        for order in orders:
+            if str(order.user.username) not in list_table:
+                list_table.append(str(order.user.username))
+            total_venenue += order.total_price
+        print(list_table)
+
+    
+    data['all_table'] = list_table
+    data['total_venenue'] = total_venenue
+    return render(request, 'partner/owner/revenue_table.html', processData(request, data))
 
 @login_required
 def ownerHistory(request):

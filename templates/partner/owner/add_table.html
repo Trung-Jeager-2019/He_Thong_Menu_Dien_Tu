@@ -2,14 +2,14 @@
 {% block dashboardContent %}
 <form class="needs-validation" novalidate="" method="post" action="{% url 'add_table' %}?table_code={{tableItems.table_code}}" enctype="multipart/form-data">
     {% csrf_token %}
-        <div class="row">
-          <div class="col-md-6 mb-3">
+    <div class="row">
+        <div class="col-md-6 mb-3">
             <label for="name">Tên bàn</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="Bàn 01" value="{{tableItems.table_name}}" required="">
-          </div>
         </div>
-        <hr class="mb-4">
-        <button class="btn px-4 btn-primary " type="submit">Save</button>
-        <a href="{% url 'view_table' %}" class="btn px-4 btn-link ">Cancel</a>
-      </form>
+    </div>
+    <hr class="mb-4">
+    <button class="btn px-4 btn-primary " type="submit">Save</button>
+    <a href="{% url 'view_table' %}" class="btn px-4 btn-link ">Cancel</a>
+</form>
 {% endblock dashboardContent %}

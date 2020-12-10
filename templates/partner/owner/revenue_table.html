@@ -1,24 +1,24 @@
 {% extends 'user/profile.html' %}
 {% block dashboardContent %}
+        <h3> {{ date }} </h3> <br>
         <div class="row">
             {% for item in all_table %}
                 <div class="col-md-4">
                     <div class="card mb-3 shadow-sm">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
-                                
-                                {% comment %} <label class="align-middle text-center">{{ item.table_name }}</label> {% endcomment %}
-                                <a href="{% url 'owner_history_table' %}?table_code={{item.table_code}}" class="btn btn-primary btn-lg"> 
+                                <a href="{% url 'owner_history_table' %}?table_code={{ item }}" class="btn btn-primary btn-lg"> 
                                     <div class="btn-group ">
-                                        {{item.table_name}}
+                                        {{ item }}
                                     </div>
                                 </a>
-                                
                             </div>
                         </div>
                     </div>
                 </div> 
             {% endfor %}
         </div>
-        <a href="{% url 'view_table' %}" class="btn px-4 btn-link align-right">Cancel</a>
+        <h3> Tổng doanh thu ngày: {{ total_venenue }} &#8363;</h3>
+        <br>
+        <a href="{% url 'revenue' %}" class="btn px-4 btn-link align-right">Cancel</a>
 {% endblock dashboardContent %}

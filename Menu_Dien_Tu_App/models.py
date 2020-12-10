@@ -19,6 +19,7 @@ class MenuItem(models.Model):
     price = models.IntegerField(default=100)
     image = models.ImageField(upload_to="upload", default='default.svg')
     active = models.BooleanField(default=True)
+    describe = models.CharField(default="", max_length=1000)
 
     def __str__(self):
         return self.user.username + " - " + self.name + " : " + str(self.price) + " : " + str(self.active)
@@ -29,7 +30,6 @@ class DescribeItem(models.Model):
 
     def __str__(self):
         return str(self.menuItem)
-    
 
 class Table(models.Model):
     table_code = models.CharField(max_length=20)

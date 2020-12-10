@@ -34,6 +34,7 @@ urlpatterns = [
     path('delete-table', views.deleteTable, name='delete_table'),
     path('create-table-item', views.createTableItem, name='create_table_item'),
     path('revenue', views.revenue, name='revenue'),
+    path('revenue-date', views.revenueDate, name='revenue_date'),
     path('order-history', views.orderHistory, name='order_history'),
     path('owner-history', views.ownerHistory, name='owner_history'),
     path('owner-history-table', views.ownerHistoryTable, name='owner_history_table'),

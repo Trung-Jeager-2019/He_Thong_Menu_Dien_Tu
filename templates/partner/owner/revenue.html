@@ -1,4 +1,15 @@
 {% extends 'user/profile.html' %}
 {% block dashboardContent %}
- <h3> Total Revenue: {{revenue}} &#8363;</h3>
+    {% comment %} <h3> Total Revenue: {{ revenue }} &#8363;</h3> {% endcomment %}
+    <h3> Thống kê doanh thu theo ngày </h3> <br>
+    <form class="needs-validation"novalidate="" method="post" action="{% url 'revenue_date'  %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <select class="form-control course selectFilter" id="date" required="date" name="date">
+            {% for date in list_date %}
+                <option value="{{ date }}">{{ date }}</option>
+            {% endfor %}
+        </select>
+        </br>
+        <input class="btn btn-primary" type="submit" class="btn" value="Xem thống kê">
+    </form>
 {% endblock dashboardContent %}

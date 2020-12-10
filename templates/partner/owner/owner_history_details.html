@@ -9,15 +9,15 @@
 
             <div class="badge badge-success d-flex p-2 no-round">
                 <span class="text-left mr-auto"># {{order.id}}</span>
-                <span class="text-left ml-auto">Delivered by {{ order.rider | title}}  on {{order.deliveredOn}}</span>
+                <span class="text-left ml-auto">{{order.deliveredOn}}</span>
             </div>
 
         {% else %}
 
         <div class="badge badge-danger d-flex p-2 no-round">
-            <span class="text-left mr-auto"># {{order.id}}</span>
+            <span class="text-left mr-auto"># {{ order.id }}</span>
                 <span class="text-left ml-auto">
-                    {{order.dateTime}}
+                    {{ order.dateTime }}
             </span>
         </div>
 
@@ -46,14 +46,6 @@
             <td>Total</td>
             <td colspan="3" class="text-right">{{order.total  }}</td>
             </tr>
-            {% comment %} <tr>
-            <td>Delivery Charge</td>
-            <td colspan="3" class="text-right">{{order.total | calculateCharges }}</td>
-            </tr> {% endcomment %}
-            {% comment %} <tr>
-            <td>Grand Total</td>
-            <td colspan="3" class="text-right">{{order.total | calculateCharges:"total" }}</td>
-            </tr> {% endcomment %}
             </tbody>
         </table>
     </div>
