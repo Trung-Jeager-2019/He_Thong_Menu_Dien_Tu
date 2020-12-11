@@ -12,7 +12,7 @@
         <div class="col-md-4">
             <div class="card mb-3 shadow-sm">
                 {% if  item.image %}
-                    <div class="d-block img-fixed" style="background:url('{{item.image}}');background-size:cover">&nbsp;</div>
+                    <div class="d-block img-fixed" style="background:url('{{item.image.url}}');background-size:cover">&nbsp;</div>
                 {% else %}
                     <div class="d-block img-fixed" style="background:url('/media/default.svg');background-size:cover">&nbsp;</div>
                 {% endif %}

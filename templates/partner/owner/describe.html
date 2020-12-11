@@ -18,27 +18,15 @@
 
                 <div class="row product-gallery mx-1">
 
-                <div class="col-12 mb-0">
-                    <figure class="view overlay rounded z-depth-1 main-img">
-                        <a href={{info_item_image}} data-size="710x823">
-                            <img src={{ info_item_image }} class="img-fluid z-depth-1">
-                        </a>
-                        {% comment %} <div class="d-block img-fixed" style="background:url('{{info_item.menuItem.image}}');background-size:cover">&nbsp;</div> {% endcomment %}
-                    </figure>
-                </div>
-                {% comment %} <div class="col-12">
-                    <div class="row">
-                    <div class="col-3">
-                        <div class="view overlay rounded z-depth-1 gallery-item">
-                        <img src="{% static 'info_item.menuItem.image' %}"
-                            class="img-fluid">
-                        <div class="mask rgba-white-slight"></div>
-                        </div>
+                    <div class="col-12 mb-0">
+                        <figure class="view overlay rounded z-depth-1 main-img">
+                            <a href={{ info_item_image.url }} data-size="710x823">
+                                <img src={{ info_item_image.url }} class="img-fluid z-depth-1">
+                            </a>
+                            {% comment %} <div class="d-block img-fixed" style="background:url('{{info_item.menuItem.image}}');background-size:cover">&nbsp;</div> {% endcomment %}
+                        </figure>
                     </div>
-                    </div>
-                </div> {% endcomment %}
                 </div>
-
             </div>
 
             </div>
@@ -46,7 +34,7 @@
 
             <h2><strong> {{ info_item_name }} </strong> </h2>
             <hr>
-            <h5><span class="mr-1"><strong>{{ info_item_price }} <span> &#8363; </span> </strong></span> </h5>
+            <h5><span class="mr-1"><strong>{{ info_item_price }} </strong></span> </h5>
             <p class="pt-1">{{ info_item_describe }}</p>
 
             <a href="{% url 'addItemToCart' %}?id={{ info_item_id }}" class="btn btn-warning btn-md mr-1 mb-2" role="button"> <i

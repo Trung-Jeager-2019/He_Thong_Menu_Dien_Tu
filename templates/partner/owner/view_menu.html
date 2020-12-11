@@ -27,20 +27,20 @@
     {% else %}
         {% for item in menuItems %}    
             <tr>
-                <th class="align-middle">{{forloop.counter}}</th>
-                <td class="align-middle">{{item.name}}</td>
-                <td class="align-middle">{{item.price}} &#8363; </td>
+                <th class="align-middle">{{ forloop.counter }}</th>
+                <td class="align-middle">{{ item.name }}</td>
+                <td class="align-middle">{{ item.price }} &#8363; </td>
                 {% if item.image %}
-                    <td class="align-middle text-center"><img class="img-fluid img-thumbnail" src="{{item.image}}" ></td>
+                    <td class="align-middle text-center"><img class="img-fluid img-thumbnail" src="{{ item.image.url }}" ></td>
                 {% else %}
                     <td class="align-middle text-center"><img class="img-fluid img-thumbnail" src="/media/default.svg" ></td>
                 {% endif %}
                 <td class="align-middle text-center">
-                    <p> {{item.describe}} </p>
+                    <p> {{ item.describe }} </p>
                 </td>
                 <td class="align-middle text-center">
-                    <a class="btn btn-warning" href="{% url 'add_menu' %}?id={{item.id}}"> Edit </a> 
-                    <a class="btn btn-outline-danger" href="{% url 'delete_menu' %}?id={{item.id}}"> Delete </a>
+                    <a class="btn btn-warning" href="{% url 'add_menu' %}?id={{ item.id }}"> Edit </a> 
+                    <a class="btn btn-outline-danger" href="{% url 'delete_menu' %}?id={{ item.id }}"> Delete </a>
                 </td>
             </tr>
         {% endfor %}
