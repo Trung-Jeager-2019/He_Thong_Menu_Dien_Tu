@@ -1,32 +1,30 @@
 {% extends 'user/profile.html' %}
 {% block dashboardContent %}
-    <form class="needs-validation" novalidate="" method="post" action="{% url 'create_table_item' %}" enctype="multipart/form-data">
+    <form class="needs-validation" novalidate="" method="post" action="{% url 'category_item' %}" enctype="multipart/form-data">
         {% csrf_token %}
-        
         <div class="row">
-            {% for item in all_table %}
+            {% for item in all_category %}
                 <div class="col-md-4">
                     <div class="card mb-3 shadow-sm">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group ">
-                                    <label class="align-middle text-center">{{item.table_name}}</label>
+                                    <label class="align-middle text-center">{{item.category_name}}</label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
             {% endfor %}
         </div>
         <hr class="mb-4">
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label for="name">Số bàn</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="01" value="" required="">
+                <label for="name">Tên danh mục</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="CÀ PHÊ" value="" required="">
             </div>
-        </div>
-        
+        </div>        
         <button class="btn px-4 btn-primary " type="submit">Lưu</button>
-        <a href="{% url 'create_table_item' %}" class="btn px-4 btn-link ">Nhập lại</a>
+        <a href="{% url 'category_product' %}" class="btn px-4 btn-link ">Nhập lại</a>
     </form>
 {% endblock dashboardContent %}

@@ -22,7 +22,7 @@
   <tbody>
     {% if  not menuItems %}
         <tr>
-            <td  colspan="5" class="text-center">No items found. Plase add items to menu </td>
+            <td  colspan="5" class="text-center">Không tìm thấy sản phẩm. Vui lòng thêm sản phẩm vào Menu! </td>
         <tr>
     {% else %}
         {% for item in menuItems %}    
@@ -39,8 +39,8 @@
                     <p> {{ item.describe }} </p>
                 </td>
                 <td class="align-middle text-center">
-                    <a class="btn btn-warning" href="{% url 'add_menu' %}?id={{ item.id }}"> Edit </a> 
-                    <a class="btn btn-outline-danger" href="{% url 'delete_menu' %}?id={{ item.id }}"> Delete </a>
+                    <a class="btn btn-warning" href="{% url 'add_menu' %}?id={{ item.id }}">Sửa</a> <hr>
+                    <a class="btn btn-outline-danger" href="{% url 'delete_menu' %}?id={{ item.id }}">Xóa</a>
                 </td>
             </tr>
         {% endfor %}

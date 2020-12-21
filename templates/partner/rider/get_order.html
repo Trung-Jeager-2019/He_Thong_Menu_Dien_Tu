@@ -1,33 +1,59 @@
 {% extends 'user/profile.html' %}
 {% load cart_tags %}
-{% block dashboardContent %}
+{% block dashboardContentParent %}
 
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Order ID</th>
-      <th scope="col">Delivery charge</th>
-      <th scope="col">Delivered?</th>
-      <th scope="col">Action</th>
+{% for order in orders %}
+    <div class="card mt-3 p-3 shadow-sm">
+        
+        {% if order.rider.username == user.username %}
 
-    </tr>
-  </thead>
-  <tbody>
-  {% for item in pendingOrders %}
-      <tr>
-        <th scope="row">{{ forloop.counter}}</th>
-        <td>{{item.id  }}</td>
-        <td>{{item.total_price | calculateCharges }}</td>
-        <td>{{item.delivered | yesno }}</td>
-        {% if  item.rider.username == user.username %}
-          <td> <a href="{% url 'complete_delivery'%}?id={{item.id}}" class="btn btn-danger">Delivery complated</a> </td>    
+            <div class="badge badge-success d-flex p-2 no-round">
+                <span class="text-left mr-auto"># {{order.id}}</span>
+                <span class="text-left ml-auto">{{order.deliveredOn}}</span>
+            </div>
+
         {% else %}
-          <td> <a href="{% url 'take_for_delivery'%}?id={{item.id}}" class="btn btn-success">Take for Delivery</a> </td>
-        {% endif %}
-      </tr>
-  {% endfor %}
-  </tbody>
-</table>
 
-{% endblock dashboardContent %}
+        <div class="badge badge-danger d-flex p-2 no-round">
+            <span class="text-left mr-auto"># {{ order.id }}</span>
+                <span class="text-left ml-auto">
+                    {{ order.dateTime }}
+            </span>
+        </div>
+
+        {% endif %}
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tên món</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Giá</th>
+            </tr>
+            </thead>
+            <tbody>
+            {%for item in order.items%}
+              <tr>
+              <td>{{forloop.counter}}</td>
+              <td>{{item.item.name }}</td>
+              
+              <td>{{item.quantity}}</td>
+              <td>{{item.item.price}}</td>
+              </tr>
+            {% endfor %}
+            
+            </tbody>
+            <tr>
+              <td>{{ order.table }}</td>
+              {% if order.rider.username == user.username %}
+                <td colspan="3" class="text-right"> <a href="{% url 'complete_delivery'%}?id={{order.id}}" class="btn btn-success">Hoàn Thành</a> </td>    
+              {% else %}
+                <td colspan="3" class="text-right"> <a href="{% url 'take_for_delivery'%}?id={{order.id}}" class="btn btn-danger">Nhận Đơn</a> </td>
+              {% endif %}
+            </tr>
+        </table>
+    </div>
+{% endfor %}
+
+{% endblock dashboardContentParent %}

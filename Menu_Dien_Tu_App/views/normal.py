@@ -9,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 from Menu_Dien_Tu_App.models import Restaurant, MenuItem, Order, OrderedItem
 
 
-
 @login_required
 def orderHistory(request):
     data = {'title': 'Previous orders '}

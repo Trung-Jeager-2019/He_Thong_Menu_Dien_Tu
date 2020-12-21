@@ -1,40 +1,67 @@
 {% extends 'base.html' %}
+{% load cart_tags %}
 {% block content %}
 <div class="album py-5">
-    
-{% if menuItems is  None %}
-    <div class="text-center"> {{errorQuote}}</div>
-{% endif %}
-    <div class="container"> 
-        <div class="row"> 
-
-        {% for item in menuItems %}
-        <div class="col-md-4">
-            <div class="card mb-3 shadow-sm">
-                {% if  item.image %}
-                    <div class="d-block img-fixed" style="background:url('{{item.image.url}}');background-size:cover">&nbsp;</div>
-                {% else %}
-                    <div class="d-block img-fixed" style="background:url('/media/default.svg');background-size:cover">&nbsp;</div>
-                {% endif %}
-            <div class="card-body">
-                <p class="card-text">{{item.name | title}}</p>
-                <div class="p-2 badge badge-dark">{{item.price}} <span> &#8363; </span></div>
-                <p class="text-secondary">{{item.user.restaurant.name | title}}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                    <a href="{% url 'addItemToCart' %}?id={{item.id}}" class="btn btn-sm btn-warning">Mua ngay</a>
+    {% if category is  None %}
+        <div class="text-center"> {{errorQuote}}</div>
+    {% endif %}
+    <div class="collection_menu_wrap">
+        <div class="container"> 
+            <div class="row">
+                <div style="margin-top: 0.5em;" class="col-lg-3 col-md-3 col-sm-4 col-xs-12 stikySidebar">
+                    <nav class="container card mb-3 shadow-sm navbar navbar-expand-lg sticky-top">
+                        {% for slide in slideBar %}
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href=#{{slide.category_code}}><strong style="color:#e07b39; cursor:pointer; margin-top: 5em;">{{slide.category_name}}</strong></a>
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    </nav>
                 </div>
-                <div class="btn-group">
-                    <a href="{% url 'view_describe' %}?name={{item.name}}&id={{item.id}}" class="btn btn-sm btn-warning">Tìm hiểu thêm</a>
-                </div>
-                
-                
+                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12 border_right_before">
+                {% for cateItem in category %}
+                    <div class="block_menu_item" id="{{ cateItem.categoryCode }}" >
+                        <div class="container"> 
+                            <h3 class="block_menu_item_title">
+                                <span class="line_after_heading section_heading">{{ cateItem.categoryName }}</span>
+                            </h3>
+                            <hr width="5%" size="100px" align="left" color="red" />
+                            <div class="row">
+                                {% for item in cateItem.categoryItems %}
+                                    <div class="col-md-4">
+                                        <div class="card mb-3 shadow-sm">
+                                            {% if  item.image %}
+                                                <div class="d-block img-fixed" style="background:url('{{item.image.url}}');background-size:cover">&nbsp;</div>
+                                            {% else %}
+                                                <div class="d-block img-fixed" style="background:url('/media/default.svg');background-size:cover">&nbsp;</div>
+                                            {% endif %}
+                                            <div class="card-body">
+                                                <h5 class="card-text">
+                                                    {{ item.name | title }}
+                                                </h5>
+                                                <div class="p-2 badge badge-dark">
+                                                    {{ item.price | displayPrice}}
+                                                </div>
+                                                <p class="text-secondary"></p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="btn-group">
+                                                        <a href="{% url 'addItemToCart' %}?id={{item.id}}" class="btn btn-sm btn-warning" style="color:#feffe0;font-weight: bold;">Đặt ngay</a>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <a href="{% url 'view_describe' %}?name={{item.name}}&id={{item.id}}" class="btn btn-sm btn-warning" style="color:#feffe0;font-weight: bold;">Xem thêm</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
                 </div>
             </div>
-            </div>
-        </div> 
-        {% endfor %}
-
         </div>
     </div>
 </div>

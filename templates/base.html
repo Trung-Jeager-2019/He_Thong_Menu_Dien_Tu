@@ -36,27 +36,35 @@
                 {% endif %}
                 <h5 class="my-0 mr-md-auto font-weight-normal"><a href="{% url 'home' %}" style="text-secondary"></a></h5>
                 <nav class="my-2 my-md-0 mr-md-3">
-                    {% if user.profile.role == 'normal' %}
+                    {% comment %} {% if user.profile.role == 'normal' %}
                         <a class="p-2 text-dark" href="{% url 'home' %}">Home</a>
-                    {% endif %}
+                    {% endif %} {% endcomment %}
 
                     {% if user.is_authenticated and user.username  %}
-                        <a class="p-2 text-dark" href="{% url 'profile' %}">{{user.username | title}}</a>
+                        {% if user.profile.role in "owner" or "rider" %}
+                            <a class="p-2 text-dark" href="{% url 'cart' %}">{{user.username | title}}</a>
+                            <a class="p-2 text-dark" href="{% url 'contact-us' %}">Liên hệ</a>
+                            <a class="btn btn-outline-warning" href="{% url 'logout' %}" role="button">Đăng xuất</a>
+                        {% else %}
+                            <a class="p-2 text-dark" href="{% url 'contact-us' %}">Liên hệ</a>
+                            <a class="btn btn-outline-warning" href="{% url 'logout' %}" role="button">Đăng xuất</a>
+                        {% endif %}
+                        {% comment %} <a class="p-2 text-dark" href="{% url 'profile' %}">{{user.username | title}}</a>
                         <a class="p-2 text-dark" href="{% url 'contact-us' %}">Contact</a>
-                        <a class="btn btn-outline-warning" href="{% url 'logout' %}" role="button">Logout</a>
+                        <a class="btn btn-outline-warning" href="{% url 'logout' %}" role="button"></a> {% endcomment %}
                     {% else %}
                         {% if request.resolver_match.url_name != 'login' %}
-                            <a class="btn btn-outline-warning" href="{% url 'login' %}" role="button">Login</a>
+                            <a class="btn btn-outline-warning" href="{% url 'login' %}" role="button">Đăng nhập</a>
                         {% endif %}
-                        {% if request.resolver_match.url_name != 'signup' %}
-                            <a class="btn btn-outline-warning" href="{% url 'signup' %}">Sign up</a>
-                        {% endif %}
+                        {% comment %} {% if request.resolver_match.url_name != 'signup' %}
+                            <a class="btn btn-outline-warning" href="{% url 'signup' %}">Đăng ký</a>
+                        {% endif %} {% endcomment %}
                     {% endif %}
                 </nav>      
                 {% if user.profile.role == 'normal'%}
                     <div class="btn-group" role="group">
-                    <a class="btn btn-warning round" href="{% url 'cart' %}">Cart <i class="fas fa-shopping-cart"></i></a>
-                    <a class="btn btn-dark round" href="{% url 'cart' %}"> {{ cartItems | calculateTotalQuantity }} </a> 
+                        <a class="btn btn-warning round" href="{% url 'cart' %}">Danh sách đơn <i class="fas fa-shopping-cart"></i></a>
+                        <a class="btn btn-dark round" href="{% url 'cart' %}"> {{ cartItems | calculateTotalQuantity }} </a> 
                     </div>
                 {% endif %}
             </div>

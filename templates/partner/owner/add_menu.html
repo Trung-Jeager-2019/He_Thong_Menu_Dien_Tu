@@ -3,6 +3,21 @@
 {% block dashboardContent %}
 <form class="needs-validation" novalidate="" method="post" action="{% url 'add_menu'  %}" enctype="multipart/form-data">
     {% csrf_token %}
+        <div class="row">
+          <div class="col-md-12 mb-3">
+            <label for="name">Danh mục</label>
+            <select class="form-control course selectFilter" id="categoryCode" required="categoryCode" name="categoryCode">
+                {% if category_code %}
+                  <option value="{{ category_code }}">{{ category_name }}</option>
+                {% endif %}
+                {% for item in categoryItem %}
+                    {% if item.category_code != category_code %}
+                      <option value="{{ item.category_code }}">{{ item.category_name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+          </div>
+        </div>
         <input type="hidden" name="id" value="{{menuItem.id}}" >
         <div class="row">
           <div class="col-md-6 mb-3">
@@ -20,11 +35,9 @@
               <label class="" for="inputGroupFile04">Chọn hình ảnh</label>
               <br>
               <input type="file" class="" name="image" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-        
             </div>
           </div>
          </div>
-
          <div class="row">
           <div class="col-md-12 mb-3">
             <label for="name">Mô tả</label>
@@ -32,7 +45,7 @@
           </div>
          </div>
          <hr class="mb-4">
-        <button class="btn px-4 btn-primary " type="submit">Save</button>
-        <a href="{% url 'view_menu' %}" class="btn px-4 btn-link ">Cancel</a>
+        <button class="btn px-4 btn-primary " type="submit">Lưu</button>
+        <a href="{% url 'view_menu' %}" class="btn px-4 btn-link ">Hủy</a>
       </form>
 {% endblock dashboardContent %}

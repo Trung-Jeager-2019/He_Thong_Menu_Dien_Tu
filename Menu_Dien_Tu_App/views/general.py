@@ -6,14 +6,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from Menu_Dien_Tu_App.models import Restaurant, MenuItem, Profile, Table
+from Menu_Dien_Tu_App.models import Restaurant, MenuItem, Profile, Table, Category, Order, OrderedItem
 
 # Create your views here
 
 def index(request):
     data = {
-        'title': 'Just for Food',
-        'companyName': 'Just for Food'
+        'title': 'Hệ thống e-menu'
     }
     items = Table.objects.all()
     if items and items.count() > 0:
@@ -22,11 +21,10 @@ def index(request):
 
 def select(request):
     data = {
-        'title': 'Login to your account',
-        'companyName': 'Just for Food'
+        'title': 'Đăng nhập'
     }
     table_code = request.GET.get('table_code')
-    print(table_code)
+
     try:
         username = table_code
         password = "Trung14121999#"
@@ -36,11 +34,9 @@ def select(request):
         status.save()
 
         user = auth.authenticate(username=username, password=password)
-        print("Check user")
         if user is not None:
             if user.is_active:
                 login(request, user)
-                print('User logged in')
                 nextUrl = request.POST.get('next')
                 print(nextUrl)
                 if not nextUrl:
@@ -53,13 +49,21 @@ def select(request):
 
 def home(request):
     data = {
-        'title': 'Just for Food',
-        'companyName': 'Just for Food'
+        'title': 'Hệ thống e-menu',
     }
-    # items = MenuItem.objects.filter(active=True)
-    items = MenuItem.objects.all()
-    if items and items.count() > 0:
-        data['menuItems'] = items
+    
+    data['slideBar'] = Category.objects.all()
+    categoryFromDb = Category.objects.all()
+    
+    newCategory = []
+    for category in categoryFromDb:
+        tmp_category = {}
+        tmp_category['categoryCode'] = category.category_code
+        tmp_category['categoryName'] = category.category_name
+        tmp_category['categoryItems'] = MenuItem.objects.filter(category=category.category_code)
+        newCategory.append(tmp_category)
+
+    data['category'] = newCategory
     return render(request, 'index.html', processData(request, data))
 
 def logoutUser(request):
@@ -79,8 +83,7 @@ def logoutUser(request):
 
 def loginUser(request):
     data = {
-        'title': 'Login to your account',
-        'companyName': 'Just for Food'
+        'title': 'Đăng nhập'
     }
     if request.method == 'POST':
 
@@ -88,14 +91,13 @@ def loginUser(request):
         password = request.POST.get('password')
 
         if not (username and password):
-            messages.error(request, 'All fields are mandatory')
+            messages.error(request, 'Hãy nhập đầy đủ thông tin tài khoản!')
             return redirect('login')
 
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
                 login(request, user)
-                print('User logged in')
                 nextUrl = request.POST.get('next')
                 print(nextUrl)
                 if not nextUrl:
@@ -103,7 +105,7 @@ def loginUser(request):
 
                 return redirect(nextUrl)
 
-        messages.error(request, 'Invalid credentials')
+        messages.error(request, 'Đăng nhập thành công!')
         return redirect('login')
 
     else:
@@ -115,8 +117,7 @@ def loginUser(request):
 
 def signup(request):
     data = {
-        'title': 'Create an account',
-        'companyName': 'Just for Food'
+        'title': 'Tạo tài khoản'
     }
     
     if(request.method == 'POST'):
@@ -167,40 +168,35 @@ def signup(request):
 
 def aboutTeams(request):
     data = {
-        'title': 'Meet Our Team!',
-        'companyName': 'Just for Food'
+        'title': 'Thông tin về nhóm!'
     }
     return render(request, 'teams.html', processData(request, data))
 
 
 def specials(request):
     data = {
-        'title': 'Special deals',
-        'companyName': 'Just for Food'
+        'title': 'Special deals'
     }
     return render(request, 'specials.html', processData(request, data))
 
 
 def offers(request):
     data = {
-        'title': 'New offers',
-        'companyName': 'Just for Food'
+        'title': 'New offers'
     }
     return render(request, 'offers.html', processData(request, data))
 
 
 def support(request):
     data = {
-        'title': 'Customer support page',
-        'companyName': 'Just for Food'
+        'title': 'Customer support page'
     }
     return render(request, 'support.html', processData(request, data))
 
 
 def cart(request):
     data = {
-        'title': 'Shopping Cart',
-        'companyName': 'Just for Food'
+        'title': 'Shopping Cart'
     }
     return render(request, 'cart.html', processData(request, data))
 
@@ -218,16 +214,16 @@ def addToCart(request):
                 request.session['items'] = items
                 newItem = itemToAdd.values()[0]
                 messages.error(
-                    request, newItem['name'] + " added to cart please 'proceed to checkout' from your cart to finish your order")
+                    request, newItem['name'] + " đã được thêm vào đơn!")
 
             else:
-                messages.error(request, "Can't find item you have selected.")
+                messages.error(request, "Không tìm thấy sản phẩm.")
 
         except Exception as e:
             print(e)
-            messages.error(request, "An error occured. Please try again.")
+            messages.error(request, "Đã xảy ra lỗi. Vui lòng thử lại!")
     else:
-        messages.error(request, "Please select item to add to cart.")
+        messages.error(request, "Hãy chọn sản phẩm và thêm vào đơn.")
 
     return redirect(request.META.get('HTTP_REFERER', 'cart'))
 
@@ -235,12 +231,11 @@ def addToCart(request):
 @login_required
 def removeFromCart(request):
     data = {
-        'title': 'Remove Item From Cart',
-        'companyName': 'Just for Food'
+        'title': 'Xóa sản phẩm'
     }
     id = toId(request.GET.get('id', -1))
     if not id:
-        messages.error(request, 'Please select an item to remove from cart.')
+        messages.error(request, 'Hãy chọn sản phẩm cần xóa.')
         return redirect(request.META.get('HTTP_REFERER', 'home'))
     items = request.session.get('items', [])
     itemToRemove = None
@@ -251,13 +246,12 @@ def removeFromCart(request):
             break
 
     if not itemToRemove:
-        messages.info(request, "Can't find item in cart")
+        messages.info(request, "Không thể tìm thấy sản phẩm trong đơn.")
 
     else:
         newItems = [i for i in items if not (i['id'] == itemToRemove["id"])]
         request.session['items'] = newItems
-        messages.info(request, 'removed ' +
-                      itemToRemove["name"] + ' from cart')
+        messages.info(request, itemToRemove["name"] + ' đã được bỏ chọn khỏi đơn!')
 
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 
@@ -265,8 +259,7 @@ def removeFromCart(request):
 @login_required
 def profile(request):
     data = {
-        'title': 'Profile',
-        'companyName': 'Just for Food'
+        'title': 'Thông tin'
     }
     return render(request, 'user/profile.html', processData(request, data))
 
@@ -274,16 +267,14 @@ def profile(request):
 @login_required
 def dashboard(request):
     data = {
-        'title': 'Dashboard',
-        'companyName': 'Just for Food'
+        'title': 'Trang chủ'
     }
     return render(request, 'user/profile.html', processData(request, data))
 
 
 def partnerWithUs(request):
     data = {
-        'title': 'Partner with us',
-        'companyName': 'Just for Food'
+        'title': 'Partner with us'
     }
     return render(request, 'partner/select.html', processData(request, data))
 

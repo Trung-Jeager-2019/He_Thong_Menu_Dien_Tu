@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load cart_tags %}
+{% block content %}
+
+<div class="cart py-5">
+    <div class="container max-900">
+        {% if not cartItems  %}
+            <div class="text-center"> 
+                <h5>Quý khách vui lòng thanh toán tại quầy</h5>
+                <div class="my-2 my-md-0 mr-md-3">
+                    <a class="btn btn-outline-warning" href="{% url 'complete_pay' %}" role="button">Đã thanh toán!</a>
+                </div>
+            </div>
+        {% endif %} 
+    </div>
+</div>
+{% endblock content %}

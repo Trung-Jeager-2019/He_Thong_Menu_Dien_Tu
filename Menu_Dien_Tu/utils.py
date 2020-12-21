@@ -9,7 +9,7 @@ def processData(request=None, data=None):
     }
 
     cartItemsFromSession = request.session.get('items', {})
-    appData = {'companyName': 'Ez Food', 'errorQuote': randomErrorQuotes(
+    appData = {'companyName': 'Hệ thống e-menu', 'errorQuote': randomErrorQuotes(
     ), 'img': img, 'cartItems': cartItemsFromSession}
 
     if(data is None):
@@ -21,8 +21,8 @@ def processData(request=None, data=None):
 
 def randomErrorQuotes():
     return random.choice([
-        'looks like something went wrong on out end. please check after sometime or contact admin ',
-        'something went wrong',
+        'Đã xảy ra lỗi. Hãy liên hệ với admin! ',
+        'Lỗi!',
     ])
 
 

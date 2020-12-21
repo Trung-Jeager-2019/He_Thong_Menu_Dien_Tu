@@ -14,11 +14,11 @@ def checkout(request):
     items = request.session.get('items')
 
     if request.method != 'POST':
-        messages.error(request, 'Please checkout from cart')
+        messages.error(request, 'Vui lòng thanh toán!')
         return redirect('cart')
 
     if not items or len(items) <= 0:
-        messages.error(request, 'please select atleast one item')
+        messages.error(request, 'Vui lòng chọn ít nhất 1 mục!')
         return redirect('cart')
 
     placedOrdersCount = 0
@@ -45,11 +45,24 @@ def checkout(request):
     except Exception as e:
         print(e)
         placedOrdersCount = 0
-        messages.error(request, "cant place order please try again")
+        messages.error(request, "Không thể đặt đơn, vui lòng thử lại")
         return redirect('cart')
 
     request.session['items'] = []
 
-    messages.info(request, 'successfully placed ' +
-                  str(placedOrdersCount)+' order(s)')
-    return redirect('home')
+    messages.info(request, 'Đơn của bạn đã được ghi nhận.')
+    return redirect('pay')
+
+@login_required
+def pay(request):
+    data = {
+        'title': 'Thanh toán'
+    }
+    return render(request, 'pay.html', processData(request, data))
+
+@login_required
+def completePay(request):
+    data = {
+        'title': 'Đơn của bạn đã được nhận'
+    }
+    return render(request, 'complete_pay.html', processData(request, data))

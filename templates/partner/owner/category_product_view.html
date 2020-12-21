@@ -1,0 +1,38 @@
+{% extends 'user/profile.html' %}
+{% load static %}
+{% block style %}
+.img-fluid{
+    max-width: 100px;
+    height: auto;
+    max-height: 100px
+}
+{% endblock style %}
+{% block dashboardContent %}
+<table class="table table-bordered">
+  <thead>
+    <tr class="">
+      <th scope="col">#</th>
+      <th scope="col"class="text-center">Tên danh mục</th>
+      <th scope="col" class="text-center">Thao tác</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if not categoryItems %}
+        <tr>
+            <td  colspan="5" class="text-center">Không có danh mục! Vui lòng thêm danh mục!</td>
+        <tr>
+    {% else %}
+        {% for item in categoryItems %}
+            <tr>
+                <th class="align-middle text-center">{{forloop.counter}}</th>
+                <td class="align-middle text-center">{{item.category_name}}</td>
+                <td class="align-middle text-center">
+                    <a class="btn btn-warning" href="{% url 'category_product_create' %}?category_code={{item.category_code}}"> Sửa </a> 
+                    <a class="btn btn-outline-danger" href="{% url 'category_product_delete' %}?category_code={{item.category_code}}"> Xóa </a>
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+  </tbody>
+</table>
+{% endblock dashboardContent %}

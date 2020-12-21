@@ -1,19 +1,18 @@
 from django import template
 from decimal import Decimal
-
+from Menu_Dien_Tu_App.models import Restaurant, MenuItem, Order, OrderedItem, Table
 register = template.Library()
 
 
 @register.filter
 def calculateCharges(total, output='delivery'):
-
     if not total:
         return 0.0
     delivery_charge = Decimal(total) * Decimal(0.08)
 
     if output == 'delivery':
         total = 0
-
+    
     return round(total + delivery_charge, 2)
 
 
@@ -46,9 +45,18 @@ def calculateTotalQuantity(items):
         if not item['quantity']:
             item['quantity'] = 1
         total = total + item['quantity']
-
     return total
 
+
+@register.filter
+def displayPrice(price):
+    price = str(price).split("000", 1)[0] + ",000 đ"
+    return price
+
+@register.filter
+def listOrderID(ID):
+    ordersFromDb = Order.objects.filter(id=ID)
+    return ordersFromDb
 
 @register.filter
 def multiply(qty, unit_price, *args, **kwargs):

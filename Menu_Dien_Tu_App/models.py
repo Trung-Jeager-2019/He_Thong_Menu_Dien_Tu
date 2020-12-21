@@ -20,16 +20,17 @@ class MenuItem(models.Model):
     image = models.ImageField(upload_to="upload", default='default.svg')
     active = models.BooleanField(default=True)
     describe = models.CharField(default="", max_length=1000)
+    category = models.CharField(default="", max_length=100)
 
     def __str__(self):
         return self.user.username + " - " + self.name + " : " + str(self.price) + " : " + str(self.active)
 
-class DescribeItem(models.Model):
-    menuItem = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
-    describe = models.CharField(max_length=1000)
+class Category(models.Model):
+    category_code = models.CharField(max_length=20)
+    category_name = models.CharField(max_length=20)
 
     def __str__(self):
-        return str(self.menuItem)
+        return self.category_code + " - " + self.category_name
 
 class Table(models.Model):
     table_code = models.CharField(max_length=20)

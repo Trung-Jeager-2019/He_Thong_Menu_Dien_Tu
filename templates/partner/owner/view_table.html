@@ -14,13 +14,13 @@
       <th scope="col">#</th>
       <th scope="col"class="text-center">Tên bàn</th>
       <th scope="col"class="text-center">Trạng thái</th>
-      <th scope="col" class="text-center">Hoạt động</th>
+      <th scope="col" class="text-center">Thao tác</th>
     </tr>
   </thead>
   <tbody>
     {% if not tableItems %}
         <tr>
-            <td  colspan="5" class="text-center">No items found. Plase add table! </td>
+            <td  colspan="5" class="text-center">Không tìm thấy bàn. Vui lòng thêm bàn! </td>
         <tr>
     {% else %}
         {% for item in tableItems %}    
@@ -33,8 +33,8 @@
                   <td class="align-middle text-center">Trống</td>
                 {% endif %}
                 <td class="align-middle text-center">
-                    <a class="btn btn-warning" href="{% url 'add_table' %}?table_code={{item.table_code}}"> Edit </a> 
-                    <a class="btn btn-outline-danger" href="{% url 'delete_table' %}?table_code={{item.table_code}}"> Delete </a>
+                    <a class="btn btn-warning" href="{% url 'add_table' %}?table_code={{item.table_code}}"> Sửa </a> 
+                    <a class="btn btn-outline-danger" href="{% url 'delete_table' %}?table_code={{item.table_code}}"> Xóa </a>
                 </td>
             </tr>
         {% endfor %}

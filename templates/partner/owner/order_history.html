@@ -50,16 +50,8 @@
     {% endfor %}
     <tr>
       <td>Total</td>
-      <td colspan="3" class="text-right">{{order.total  }}</td>
+      <td colspan="3" class="text-right">{{order.total}}</td>
     </tr>
-    {% comment %} <tr>
-      <td>Delivery Charge</td>
-      <td colspan="3" class="text-right">{{order.total | calculateCharges }}</td>
-    </tr> {% endcomment %}
-    {% comment %} <tr>
-      <td>Grand Total</td>
-      <td colspan="3" class="text-right">{{order.total | calculateCharges:"total" }}</td>
-    </tr> {% endcomment %}
     </tbody>
   </table>
   </div>

@@ -1,29 +1,54 @@
 {% extends 'user/profile.html' %}
 {% load cart_tags %}
-{% block dashboardContent %}
+{% block dashboardContentParent %}
 
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Order ID</th>
-      <th scope="col">Delivered?</th>
-      <th scope="col">Delivered On</th>
-      <th scope="col">Benifit</th>
+{% for order in orders %}
+    <div class="card mt-3 p-3 shadow-sm">
+        
+        {% if order.rider.username == user.username %}
 
-    </tr>
-  </thead>
-  <tbody>
-  {% for item in pendingOrders %}
-      <tr>
-        <th scope="row">{{ forloop.counter}}</th>
-        <td>{{item.id  }}</td>
-        <td>{{item.delivered | yesno:"yes,no" }}</td>
-        <td>{{item.deliveredOn }}</td>
-        <td> {{ item.total_price | calculateCharges }}
-      </tr>
-  {% endfor %}
-  </tbody>
-</table>
+            <div class="badge badge-success d-flex p-2 no-round">
+                <span class="text-left mr-auto"># {{order.id}}</span>
+                <span class="text-left ml-auto">{{order.deliveredOn}}</span>
+            </div>
 
-{% endblock dashboardContent %}
+        {% else %}
+
+        <div class="badge badge-danger d-flex p-2 no-round">
+            <span class="text-left mr-auto"># {{ order.id }}</span>
+                <span class="text-left ml-auto">
+                    {{ order.dateTime }}
+            </span>
+        </div>
+
+        {% endif %}
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tên món</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Giá</th>
+            </tr>
+            </thead>
+            <tbody>
+              {% for item in order.items %}
+                <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{item.item.name }}</td>
+                
+                <td>{{item.quantity}}</td>
+                <td>{{item.item.price}}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+            <tr>
+              <td>{{order.table}}</td>
+              <td >{{order.total}}</td>
+            </tr>
+        </table>
+    </div>
+{% endfor %}
+
+{% endblock dashboardContentParent %}

@@ -1,32 +1,70 @@
 <div class="list-group mb-2">
-  <div class="list-group-item d-flex justify-content-between align-items-center">
-   {{user.username}}
-   {% if user.profile.role in "rider" or "owner"  %}
-     <span class="badge badge-primary badge-pill">{{user.profile.role}}</span>
-   {% endif %}
-  </div>
+    <div class="list-group-item d-flex justify-content-between align-items-center">
+        {% now "H" as current_time %}
+        {% if current_time < 12 %}
+            Chào buổi sáng,
+        {% elif current_time < 18 %}
+            Chào buổi chiều,
+        {% else %}
+            Chào buổi tối, 
+        {% endif %}
+        {{user.username}}
+        {% if user.profile.role in "rider"%}
+            <span class="badge badge-primary badge-pill">Pha chế</span>
+        {% else %}
+            <span class="badge badge-primary badge-pill">Cửa hàng</span>
+        {% endif %}
+    </div>
 </div>
 
 {% if  user.profile.role == 'owner' %}
-<div class="list-group">
-  <a href="{% url 'restaurant_details'%}" class="list-group-item list-group-item-action">
-   Restaurent Details
-  </a>
-  <a href="{% url 'view_menu'%}" class="list-group-item list-group-item-action">View Menu</a>
-  <a href="{% url 'add_menu'%}" class="list-group-item list-group-item-action">Add menu</a>
-  <a href="{% url 'view_table'%}" class="list-group-item list-group-item-action">View Table</a>
-  <a href="{% url 'create_table'%}" class="list-group-item list-group-item-action">Add table</a>
-  <a href="{% url 'revenue'%}" class="list-group-item list-group-item-action">Total revenue</a>
-  <a href="{% url 'owner_history'%}" class="list-group-item list-group-item-action">Order History</a>
-</div>
+    {% comment %} <nav class="collapse bd-links" id="bd-docs-nav"><div class="bd-toc-item">
+        <a href="{% url 'restaurant_details'%}" class="list-group-item list-group-item-action">Thông tin</a>
+    </nav> {% endcomment %}
+    
+    <div class="list-group">
+        <li class="list-group-item list-group-item-warning">Danh mục</li>
+        <li class="list-group-item">
+            <div class="list-group">
+                <a href="{% url 'category_product_view'%}" class="list-group-item list-group-item-action">Sửa, Xóa</a>
+                <a href="{% url 'category_product'%}" class="list-group-item list-group-item-action">Thêm mới</a>
+            </div>
+        </li>
+    </div><hr>
+    <div class="list-group">
+        <li class="list-group-item list-group-item-warning">Menu</li>
+        <li class="list-group-item">
+            <div class="list-group">
+                <a href="{% url 'view_menu'%}" class="list-group-item list-group-item-action">Sửa, Xóa</a>
+                <a href="{% url 'add_menu'%}" class="list-group-item list-group-item-action">Thêm mới</a>
+            </div>
+        </li>
+    </div><hr>
+    <div class="list-group">
+        <li class="list-group-item list-group-item-warning">Bàn</li>
+        <li class="list-group-item">
+            <div class="list-group">
+                <a href="{% url 'view_table'%}" class="list-group-item list-group-item-action">Sửa, Xóa</a>
+                <a href="{% url 'create_table'%}" class="list-group-item list-group-item-action">Thêm mới</a>
+            </div>
+        </li>
+    </div><hr>
+    <div class="list-group">
+        <li class="list-group-item list-group-item-warning">Thống kê</li>
+        <li class="list-group-item">
+            <div class="list-group">
+                <a href="{% url 'revenue'%}" class="list-group-item list-group-item-action">Doanh thu</a>
+                <a href="{% url 'owner_history'%}" class="list-group-item list-group-item-action">Nhật ký đơn</a>
+            </div>
+        </li>
+    </div>
 {% elif user.profile.role == 'rider'%}
-
-<div class="list-group">
-  <a href="{% url 'get_order'%}" class="list-group-item list-group-item-action">Get Order</a>
-  <a href="{% url 'delivery_history'%}" class="list-group-item list-group-item-action">Order History</a>
-</div>
+    <div class="list-group">
+        <a href="{% url 'get_order'%}" class="list-group-item list-group-item-action">Danh sách Order</a>
+        <a href="{% url 'delivery_history'%}" class="list-group-item list-group-item-action">Nhật ký Order</a>
+    </div>
 {% else %}
-<div class="list-group">
-  <a href="{% url 'order_history'%}" class="list-group-item list-group-item-action">Order History</a>
-</div>
+    <div class="list-group">
+        <a href="{% url 'order_history'%}" class="list-group-item list-group-item-action">Order History</a>
+    </div>
 {% endif  %}

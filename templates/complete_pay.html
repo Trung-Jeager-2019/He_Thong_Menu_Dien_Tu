@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load cart_tags %}
+{% block content %}
+
+<div class="cart py-5">
+    <div class="container max-900">
+        {% if not cartItems  %}
+            <div class="text-center"> 
+                <h5>Cảm ơn quý khách!</h5>
+                <h5>Đồ uống sẽ phục vụ quý khách trong giây lát...</h5>
+                <div class="my-2 my-md-0 mr-md-3">
+                    <a class="btn btn-outline-warning" href="{% url 'logout' %}" role="button">Trả bàn</a>
+                </div>
+            </div>
+        {% endif %} 
+    </div>
+</div>
+{% endblock content %}

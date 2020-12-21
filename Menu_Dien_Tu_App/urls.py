@@ -12,7 +12,6 @@ urlpatterns = [
     path('signup', views.signup, name='signup'),
     path('our-team', views.aboutTeams, name='aboutTeams'),
 
-    
     path('specials', views.specials, name='specials'),
     path('offers', views.offers, name='offers'),
     path('support', views.support, name='support'),
@@ -33,8 +32,14 @@ urlpatterns = [
     path('create-table', views.createTable, name='create_table'),
     path('delete-table', views.deleteTable, name='delete_table'),
     path('create-table-item', views.createTableItem, name='create_table_item'),
+    path('category-product-view', views.categoryProductView, name='category_product_view'),
+    path('category-item', views.categoryItem, name='category_item'),
+    path('category-product', views.categoryProduct, name='category_product'),
+    path('category-product-delete', views.categoryProductDelete, name='category_product_delete'),
+    path('category-product-create', views.categoryProductCreate, name='category_product_create'),
     path('revenue', views.revenue, name='revenue'),
     path('revenue-date', views.revenueDate, name='revenue_date'),
+    path('revenue-date-details', views.revenueDateDetails, name='revenue_date_details'),
     path('order-history', views.orderHistory, name='order_history'),
     path('owner-history', views.ownerHistory, name='owner_history'),
     path('owner-history-table', views.ownerHistoryTable, name='owner_history_table'),
@@ -44,6 +49,8 @@ urlpatterns = [
     path('complete-delivery', views.completeDelivery, name='complete_delivery'),
     path('delivery-history', views.deliveryHistory, name='delivery_history'),
     path('checkout', views.checkout, name='checkout'),
+    path('pay', views.pay, name='pay'),
+    path('complete-pay', views.completePay, name='complete_pay'),
 
     path('contact-us/', views.contactView, name='contact-us'),
     path('success-send/', views.successView, name='success-send'),

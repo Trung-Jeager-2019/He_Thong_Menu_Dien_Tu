@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Restaurant, MenuItem, Order, OrderedItem, Table, DescribeItem
+from .models import Profile, Restaurant, MenuItem, Order, OrderedItem, Table, Category
 # Register your models here.
 
 admin.site.register(Profile)
@@ -8,4 +8,4 @@ admin.site.register(MenuItem)
 admin.site.register(Order)
 admin.site.register(OrderedItem)
 admin.site.register(Table)
-admin.site.register(DescribeItem)
+admin.site.register(Category)
