@@ -60,8 +60,8 @@
     </div>
 {% elif user.profile.role == 'rider'%}
     <div class="list-group">
-        <a href="{% url 'get_order'%}" class="list-group-item list-group-item-action">Danh sách Order</a>
-        <a href="{% url 'delivery_history'%}" class="list-group-item list-group-item-action">Nhật ký Order</a>
+        <a href="{% url 'get_order'%}" class="list-group-item list-group-item-action">Danh sách Đơn</a>
+        <a href="{% url 'delivery_history'%}" class="list-group-item list-group-item-action">Nhật ký Đơn</a>
     </div>
 {% else %}
     <div class="list-group">
