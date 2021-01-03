@@ -27,11 +27,11 @@
             <div class="d-flex max-900 flex-column flex-md-row align-items-center pt-3 px-md-4 mb-3 bg-light">
                 {% if user.profile.role == 'normal'%}
                     <a class="navbar-brand" href="{% url 'home' %}">
-                        <img src="{% static 'images/logo_title.png' %}" width="140" height="70" alt="">
+                        <img src="{% static 'images/logo_title.png' %}" width="80" height="80" alt="">
                     </a>
                 {% else %}
                     <a class="navbar-brand" href="{% url 'index' %}">
-                        <img src="{% static 'images/logo_title.png' %}" width="140" height="70" alt="">
+                        <img src="{% static 'images/logo_title.png' %}" width="80" height="80" alt="">
                     </a>
                 {% endif %}
                 <h5 class="my-0 mr-md-auto font-weight-normal"><a href="{% url 'home' %}" style="text-secondary"></a></h5>
@@ -44,7 +44,7 @@
                         {% if user.profile.role in "owner" or "rider" %}
                             <a class="p-2 text-dark" href="{% url 'cart' %}">{{user.username | title}}</a>
                             <a class="p-2 text-dark" href="{% url 'contact-us' %}">Liên hệ</a>
-                            <a class="btn btn-outline-warning" href="{% url 'logout' %}" role="button">Đăng xuất</a>
+                            <a class="btn btn-outline-warning" href="{% url 'logout' %}" role="button">Trả bàn</a>
                         {% else %}
                             <a class="p-2 text-dark" href="{% url 'contact-us' %}">Liên hệ</a>
                             <a class="btn btn-outline-warning" href="{% url 'logout' %}" role="button">Đăng xuất</a>
@@ -88,26 +88,21 @@
         <footer class="container pt-4 my-md-5 pt-md-5 border-top">
     <div class="row">
         <div class="col-12 col-md">
-        <img class="mb-2" src="{% static 'images/logo_footer.png' %}" alt="" width="100" height="100">
-        <small class="d-block mb-3 text-muted">© 2020-2021</small>
+            <img class="mb-2" src="{% static 'images/logo_footer.png' %}" alt="" width="100" height="100">
+            <small class="d-block mb-3 text-muted">© 2020-2021</small>
         </div>
         <div class="col-6 col-md">
-        <h5>Features</h5>
-        <ul class="list-unstyled text-small">
-            <li><a class="text-muted" href="{% url 'partner_with_us' %}">Partner With Us</a></li>
-        </ul>
+            <h5>Mã nguồn</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" target='blank' href="https://github.com/Trung-Jeager-2019/He_Thong_Menu_Dien_Tu">Django - Chương trình</a></li>
+                <li><a class="text-muted" target='blank' href="https://github.com/Trung-Jeager-2019/Web_Scraping_Tools">Tool - Dữ liệu</a></li>
+            </ul>
         </div>
         <div class="col-6 col-md">
-        <h5>Resources</h5>
-        <ul class="list-unstyled text-small">
-            <li><a class="text-muted" target='blank' href="https://github.com/Trung-Jeager-2019/Just_For_Food_In_University">Final resource</a></li>
-        </ul>
-        </div>
-        <div class="col-6 col-md">
-        <h5>About</h5>
-        <ul class="list-unstyled text-small">
-            <li><a class="text-muted" href="{% url 'aboutTeams' %}">Team</a></li>
-        </ul>
+            <h5>Nhóm</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="{% url 'aboutTeams' %}">Phát triển</a></li>
+            </ul>
         </div>
     </div>
     </footer>

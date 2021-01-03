@@ -62,23 +62,23 @@ body {
         <a href="{% url 'home' %}">
                 <img class="mb-4" src="{% static 'images/logo_content.png' %}" alt="" width="100" height="100" />
         </a>
-        <h3 class="mb-3 font-weight-normal">Sign in</h3>
-        <h6 class="font-weight-light mb-4"> to continue to {{companyName}}</h6>
-        <label for="username" class="sr-only">Username</label>
-        <input type="text" id="username" class="form-control" placeholder="Username/Email" name="username" required="" autofocus="" />
+        <h3 class="mb-3 font-weight-normal">Đăng nhập</h3>
+        <h6 class="font-weight-light mb-4"> để tiếp tục vào {{companyName}}</h6>
+        <label for="username" class="sr-only">Tên đăng nhập</label>
+        <input type="text" id="username" class="form-control" placeholder="Tên đăng nhập" name="username" required="" autofocus="" />
         
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="" />
+        <label for="inputPassword" class="sr-only">Mật khẩu</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mật khẩu" required="" />
         
         <button class="btn btn-lg btn-warning btn-block" type="submit">
-                Sign in
+                Tiếp tục
         </button>
         </br>
         <!--<p>Do you have an account?</p>
         <a class="btn btn-link btn-sm mt-4" href="{% url 'signup' %}" role="button">Create an account</a>-->
-        <span class="text-center f-size-2 ma-0">
+        <!-- <span class="text-center f-size-2 ma-0">
             <a href="{% url 'signup' %}" role="button">Create an account here.</a>
-        </span>
+        </span> -->
 </form>
 </div>
 {% endblock content %}

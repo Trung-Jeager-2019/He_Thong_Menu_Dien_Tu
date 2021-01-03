@@ -102,20 +102,33 @@ WSGI_APPLICATION = 'Menu_Dien_Tu.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'sql_server.pyodbc',
+#         'HOST': 'DESKTOP-AJ7H4HH\MSSQLSERVER2019',
+#         'PORT': '',
+#         'NAME': 'restaurant_db',
+#         # 'USER': 'my_user',
+#         # 'PASSWORD': 'my_password',
+#         'OPTIONS': {
+#             'driver': 'ODBC Driver 17 for SQL Server',
+#         },
+#     },
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
-        'HOST': 'DESKTOP-AJ7H4HH\MSSQLSERVER2019',
-        'PORT': '',
-        'NAME': 'restaurant_db',
-        # 'USER': 'my_user',
-        # 'PASSWORD': 'my_password',
+        'NAME': 'e-menu',
+        'USER': 'admin_db',
+        'PASSWORD': 'TrungHieu#',
+        'HOST': 'e-menu.database.windows.net',
+        'PORT': 1433,
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
-        },
-    },
+            'MARS_Connection': 'True',
+        }
+    }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
