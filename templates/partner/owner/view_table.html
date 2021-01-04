@@ -28,9 +28,13 @@
                 <th class="align-middle">{{forloop.counter}}</th>
                 <td class="align-middle">{{item.table_name}}</td>
                 {% if item.status %}
-                  <td class="align-middle text-center">Đã đặt</td>
+                  <td class="align-middle text-center">
+                    <a class="btn btn-warning" href="{% url 'status_table' %}?table_code={{item.table_code}}"> Đã đặt </a>
+                  </td>
                 {% else %}
-                  <td class="align-middle text-center">Trống</td>
+                  <td class="align-middle text-center">
+                    <a class="btn btn-outline-warning" href="{% url 'status_table' %}?table_code={{item.table_code}}"> Trống </a>
+                  </td>
                 {% endif %}
                 <td class="align-middle text-center">
                     <a class="btn btn-warning" href="{% url 'add_table' %}?table_code={{item.table_code}}"> Sửa </a> 

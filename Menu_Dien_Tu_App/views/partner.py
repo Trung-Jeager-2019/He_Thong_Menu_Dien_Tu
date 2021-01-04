@@ -269,6 +269,18 @@ def viewTable(request):
     return render(request, 'partner/owner/view_table.html', processData(request, data))
 
 @login_required
+def statusTable(request):
+    data = {'title': 'Bàn'}
+    table_code = request.GET.get('table_code')
+    items = Table.objects.filter(table_code=table_code).first()
+    if items.status:
+        items.status = False
+    else:
+        items.status = True
+    items.save()
+    return redirect('view_table')
+    
+@login_required
 def createTable(request):
     data = {'title': 'Bàn'}
     data['all_table'] = Table.objects.all()
@@ -334,7 +346,7 @@ def addTable(request):
                 tableItem.save()
 
                 # user = User.objects.
-                messages.info(request, )
+                messages.info(request, table_name + " đã được cập nhật!")
         except Exception as ex:
             messages.info(request, 'updated price for item ')
             print(ex)
@@ -387,11 +399,6 @@ def revenueDate(request):
 @login_required
 def ownerHistory(request):
     data = {'title': 'Thống kê'}
-
-    if request.method == "POST":
-        messages.error(request, "cant save. please try again or conact admin")
-        return redirect('order_history')
-        
     data['all_table'] = Table.objects.all()
     return render(request, 'partner/owner/view_table_order.html', processData(request, data))
 
@@ -404,7 +411,7 @@ def revenueDateDetails(request):
     try:
         ordersFromDb = Order.objects.filter(user=user, date__date=str(date)).order_by('-id')
     except Exception as ex:
-        print(ex)
+        messages.error(request, "Lỗi! Vui lòng liên hệ Admin!")
     newOrders = []
     for order in ordersFromDb:
         tmp_order = {}
@@ -446,15 +453,13 @@ def ownerHistoryTable(request):
     data = {'title': 'Thống kê'}
     table_code = request.GET.get('table_code')
     print(table_code)
-
-    user = User.objects.get(username = table_code)
-    print(user)
     try:
+        user = User.objects.get(username = table_code)
+        print(user)
         ordersFromDb = Order.objects.filter(user=user).order_by('-id')
         print(ordersFromDb[0].id)
     except Exception as ex:
-        print(ex)
-    print(ordersFromDb)
+        messages.error(request, table_code + " chưa có dữ liệu Đơn đặt!")
     newOrders = []
     for order in ordersFromDb:
         tmp_order = {}
@@ -470,5 +475,5 @@ def ownerHistoryTable(request):
     print(newOrders)
 
     data['orders'] = newOrders
-    data['name_table'] = order.user.username
+    data['name_table'] = table_code
     return render(request, 'partner/owner/owner_history_details.html', processData(request, data))

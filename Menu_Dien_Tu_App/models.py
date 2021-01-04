@@ -38,7 +38,7 @@ class Table(models.Model):
     status = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.table_code + " - " + self.table_name
+        return self.table_code + " - " + self.table_name + " - " + self.status
 
 
 class Restaurant(models.Model):

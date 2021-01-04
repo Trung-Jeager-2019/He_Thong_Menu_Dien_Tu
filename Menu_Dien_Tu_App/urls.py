@@ -28,6 +28,7 @@ urlpatterns = [
     path('view-describe', views.viewDescribe, name='view_describe'),
     path('delete-menu', views.deleteMenu, name='delete_menu'),
     path('view-table', views.viewTable, name='view_table'),
+    path('status-table', views.statusTable, name='status_table'),
     path('add-table', views.addTable, name='add_table'),
     path('create-table', views.createTable, name='create_table'),
     path('delete-table', views.deleteTable, name='delete_table'),
@@ -40,7 +41,6 @@ urlpatterns = [
     path('revenue', views.revenue, name='revenue'),
     path('revenue-date', views.revenueDate, name='revenue_date'),
     path('revenue-date-details', views.revenueDateDetails, name='revenue_date_details'),
-    path('order-history', views.orderHistory, name='order_history'),
     path('owner-history', views.ownerHistory, name='owner_history'),
     path('owner-history-table', views.ownerHistoryTable, name='owner_history_table'),
 
