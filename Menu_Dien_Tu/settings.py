@@ -116,30 +116,30 @@ WSGI_APPLICATION = 'Menu_Dien_Tu.wsgi.application'
 #         },
 #     },
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'e-menu',
-        'USER': 'admin_db',
-        'PASSWORD': 'TrungHieu#',
-        'HOST': 'e-menu.database.windows.net',
-        'PORT': 1433,
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
-            'MARS_Connection': 'True',
-        }
-    }
-}
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'emenu',
-#         'USER': 'mysql_admin@mysql-emenu',
+#         'ENGINE': 'sql_server.pyodbc',
+#         'NAME': 'e-menu',
+#         'USER': 'admin_db',
 #         'PASSWORD': 'TrungHieu#',
-#         'HOST': 'mysql-emenu.mysql.database.azure.com',
-#         'PORT': 3306
+#         'HOST': 'e-menu.database.windows.net',
+#         'PORT': 1433,
+#         'OPTIONS': {
+#             'driver': 'ODBC Driver 17 for SQL Server',
+#             'MARS_Connection': 'True',
+#         }
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'emenu',
+        'USER': 'mysql_admin@mysql-emenu',
+        'PASSWORD': 'TrungHieu#',
+        'HOST': 'mysql-emenu.mysql.database.azure.com',
+        'PORT': 3306
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
