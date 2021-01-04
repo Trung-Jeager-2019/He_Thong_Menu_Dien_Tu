@@ -59,8 +59,8 @@ def categoryProductDelete(request):
             return redirect('category_product_view')
         else:
             category = Category.objects.filter(category_code=category_code)
+            messages.info(request, 'Danh mục ' + category.category_name + ' đã được xóa!')
             category.delete()
-            messages.info(request, 'Danh mục ' + category_name + ' đã được xóa!')
             return redirect('category_product_view')
     except Exception as ex:
         print("error")
@@ -179,8 +179,8 @@ def deleteMenu(request):
         if not id:
             messages.error(request, 'Hãy chọn Sản phẩm cần xóa!')
             return redirect('view_menu')
-
-        if confirmed and confirmed.lower() == 'yes':
+        print(confirmed)
+        if confirmed and unidecode(confirmed.lower()) == 'co':
             try:
                 itemToDelete = MenuItem.objects.filter(user=request.user, id=id).first()
                 print(itemToDelete.name)
