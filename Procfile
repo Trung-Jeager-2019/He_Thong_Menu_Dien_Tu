@@ -1,0 +1,1 @@
+web: gunicorn Menu_Dien_Tu.wsgi:application --log-file -
