@@ -196,7 +196,7 @@ def support(request):
 
 def cart(request):
     data = {
-        'title': 'Shopping Cart'
+        'title': 'Đơn đặt'
     }
     return render(request, 'cart.html', processData(request, data))
 

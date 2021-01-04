@@ -155,7 +155,7 @@ def viewDescribe(request):
     data = {
         'info_item_id': item[0].id,
         'info_item_name': item[0].name,
-        'info_item_price': str(item[0].price).split("000", 1)[0] + ",000 Đ",
+        'info_item_price': item[0].price,
         'info_item_image': item[0].image,
         'info_item_describe': item[0].describe,
     }
@@ -425,7 +425,7 @@ def revenueDateDetails(request):
         newOrders.append(tmp_order)
 
     data['orders'] = newOrders
-    data['name_table'] = order.user.username
+    data['name_table'] = table_code
     return render(request, 'partner/owner/revenue_table_details.html', processData(request, data))
 
 @login_required

@@ -50,7 +50,9 @@ def calculateTotalQuantity(items):
 
 @register.filter
 def displayPrice(price):
-    price = str(price).split("000", 1)[0] + ",000 đ"
+    # price = str(price).split("000", 1)[0] + ",000 đ"
+    price = "{:,} đ".format(price)
+    print(price)
     return price
 
 @register.filter
