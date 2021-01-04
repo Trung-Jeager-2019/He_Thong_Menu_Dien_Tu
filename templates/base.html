@@ -42,12 +42,12 @@
 
                     {% if user.is_authenticated and user.username  %}
                         {% if user.profile.role in "owner" or "rider" %}
-                            <a class="p-2 text-dark" href="{% url 'cart' %}">{{user.username | title}}</a>
-                            <a class="p-2 text-dark" href="{% url 'contact-us' %}">Liên hệ</a>
-                            <a class="btn btn-outline-warning" href="{% url 'logout' %}" role="button">Trả bàn</a>
-                        {% else %}
+                            <a class="p-2 text-dark" href="{% url 'profile' %}">{{user.username | title}}</a>
                             <a class="p-2 text-dark" href="{% url 'contact-us' %}">Liên hệ</a>
                             <a class="btn btn-outline-warning" href="{% url 'logout' %}" role="button">Đăng xuất</a>
+                        {% else %}
+                            <a class="p-2 text-dark" href="{% url 'contact-us' %}">Liên hệ</a>
+                            <a class="btn btn-outline-warning" href="{% url 'logout' %}" role="button">Trả bàn</a>
                         {% endif %}
                         {% comment %} <a class="p-2 text-dark" href="{% url 'profile' %}">{{user.username | title}}</a>
                         <a class="p-2 text-dark" href="{% url 'contact-us' %}">Contact</a>

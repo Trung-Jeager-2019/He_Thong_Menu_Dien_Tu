@@ -177,34 +177,33 @@ def deleteMenu(request):
         id = request.POST.get('id')
 
         if not id:
-            messages.error(request, 'please select item from menu to delete')
+            messages.error(request, 'Hãy chọn Sản phẩm cần xóa!')
             return redirect('view_menu')
 
         if confirmed and confirmed.lower() == 'yes':
             try:
-                itemToDelete = MenuItem.objects.filter(
-                    user=request.user, id=id).first()
+                itemToDelete = MenuItem.objects.filter(user=request.user, id=id).first()
+                print(itemToDelete.name)
                 itemToDelete.delete()
-                messages.error(request, itemToDelete.name +
-                               ' deleted from Menu')
+                messages.error(request, itemToDelete.name + ' đã được xóa!')
                 return redirect('view_menu')
             except Exception as e:
                 print(e)
-                messages.error(request, 'cant delete item with id' + str(id))
+                messages.error(request, 'Không thể xóa id = ' + str(id) + "!")
                 return redirect('view_menu')
 
         else:
-            messages.error(request, 'please click "yes" to confirm and delete')
+            messages.error(request, 'Hãy chọn "Có" để xác nhận và xóa!')
             return redirect('view_menu')
 
     id = request.GET.get('id')
-
+    print(id)
     if not id:
-        messages.error(request, 'please select id to delete ')
+        messages.error(request, 'Hãy chọn Sản phẩm cần xóa!')
         return redirect('view_menu')
 
     if MenuItem.objects.filter(user=request.user, id=id).count() != 1:
-        messages.error(request, 'Cant find item from menu to delete')
+        messages.error(request, 'Không tìm thấy Sản phẩm cần xóa!')
         return redirect('view_menu')
 
     data['item'] = MenuItem.objects.filter(user=request.user, id=id).first()
